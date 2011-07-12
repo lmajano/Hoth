@@ -45,6 +45,10 @@ component
 
 	/** Would you like the raw JSON attached to the e-mail? */
 	property name='EmailNewExceptionsFile' 	default='false';
+	
+	/** Would you like to add a footer to email notifications? */
+	property name='EmailFooter' 	default='';
+	
 	// -------------------------------------------------------------------------
 	// HOTH REPORT SETTINGS (required)
 	// -------------------------------------------------------------------------
