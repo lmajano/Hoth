@@ -87,7 +87,7 @@ accessors=false
 			// Hash a unique key for the content of each property within the exception
 			local.index = {};
 			local.index.stack = ( len(local.e.stack) > 0) ? hash(lcase(local.e.stack),'SHA') : '_no_stack';
-			local.index.key = local.index.stack;
+			local.index.key = lcase(local.index.stack);
 
 			local.saveDetails = false;
 
@@ -127,24 +127,33 @@ accessors=false
 						,"Message: " & local.e.message
 						,"Machine Name: " & local.INetAddress.getLocalHost().getHostName()
 						,"Address: " & local.url
-						,"To view the exception info attached copy and paste into FireBug's console (x = exception) and press CRTL+Enter."
+						,variables.Config.getEmailFooter()
 					];
 
-					local.Mail = new Mail(	 subject='Hoth Exception (' & cgi.HTTP_HOST & ') ' & local.index.key
+					local.Mail = new Mail(	 subject='Hoth Exception (' & variables.Config.getApplicationName() & ') ' & local.index.key
 											,to=variables.Config.getEmailNewExceptionsTo()
 											,from=variables.Config.getEmailNewExceptionsFrom());
 
 					// Attach the file
-					if ( variables.Config.getEmailNewExceptionsFile() )
+					if ( variables.Config.getEmailNewExceptionsFile() ) {
 						local.Mail.addParam(file=local.exceptionFile);
-
-					local.Mail.addPart(
-						 type='text'
-						,charset='utf-8'
-						,wraptext=72
-						,body=arrayToList(local.emailBody, "#chr(13)##chr(13)#")
-					);
-
+						ArrayAppend( local.emailBody, "To view the attached exception info, copy and paste into FireBug's console (x = exception) and press CRTL+Enter." );
+					}
+					
+					// Show exception as HTML inline?
+					if ( variables.Config.getEmailExceptionsAsHTML() ) {
+						local.Mail.setType( "html" );
+						savecontent variable="local.emailBody" {
+							writeOutput( arrayToList( local.emailBody, "<br />" ) );
+							writeOutput( "<br />Exception Details:<br />");
+							writeDump( local.e );
+						}
+						local.Mail.setBody( local.emailBody );
+					}
+					else {
+						local.Mail.setBody( arrayToList( local.emailBody, "#chr(10)##chr(13)#" ) );
+					}
+					
 					local.mail.Send();
 			}
 		// ------------------------------------------------------------------------------
@@ -184,6 +193,12 @@ accessors=false
 			local.result.tagcontext 	= (structKeyExists(arguments.Exception, 'tagContext')) ? arguments.Exception.tagContext : 'undefined';
 			local.result.validException = true;
 			local.result.format 		= 'Native';
+
+			// ADDED by Benoit Hediard to get real detail and message in FW1
+			if (local.result.message == "Event handler exception." && structKeyExists(arguments.Exception, "Cause")) {
+				local.result.detail 	= (structKeyExists(arguments.Exception.Cause, 'detail')) ? arguments.Exception.Cause.detail : 'undefined';
+				local.result.message 	= (structKeyExists(arguments.Exception.Cause, 'message')) ? arguments.Exception.Cause.message : 'undefined';
+			};
 			return local.result;
 		} else {
 			//detail,type,tagcontext,stacktrace,message
@@ -241,7 +256,7 @@ accessors=false
 			}
 			if (!directoryExists(variables.paths.Incidents)) {
 				directoryCreate(variables.paths.Incidents);
-				fileWrite(variables.paths.Exceptions & '/_readme.txt','Hoth: The files within this directory contain the details about the volume of errors for each unique exception.');
+				fileWrite(variables.paths.Incidents & '/_readme.txt','Hoth: The files within this directory contain the details about the volume of errors for each unique exception.');
 			}
 		}
 

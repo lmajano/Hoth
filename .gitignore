@@ -1,3 +1,6 @@
 /.project
 /settings.xml
 /.settings
+# ignore IntelliJ IDEA stuff
+.idea
+*.iml
