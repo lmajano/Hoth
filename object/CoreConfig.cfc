@@ -22,16 +22,30 @@
 component
 accessors='true'
 {
-
 	/** Construct a configuration object for Hoth. */
 	public function init ()
 	{
 		local.md = getMetadata(this);
+		if (!structKeyExists(local.md, 'properties'))
+		{
+			throw(
+				 message='Invalid HothConfig Object.'
+				,detail="You have provided a CFC as the HothConfig that does not have any properties of its own. This could happen if you extended another HothConfig, or, just did not put any properties in your HothConfig."
+				,type='Hoth.object.CoreConfig.init()'
+			);
+		}
 		local.n = arrayLen(local.md.properties);
 		for (local.i=1; local.i <= local.n; local.i++) {
 			local.fn = this['set' & local.md.properties[local.i].name];
 			local.fn(local.md.properties[local.i]['default']);
 		}
+		
+		// Apply defaults if needed
+		if (isNull(getLogPathIsRelative))
+		{
+			setLogPathIsRelative(false);
+		}
+		
 		return this;
 	}
 
@@ -47,7 +61,10 @@ accessors='true'
 	/** Expands a path **/
 	public string function getLogPathExpanded ()
 	{
-		return expandPath( getLogPath() );
+		if (!structKeyExists(variables, 'logPathIsRelative')) {
+			variables.logPathIsRelative = false;
+		}
+		return variables.logPathIsRelative ? expandPath( getLogPath() ) : getLogPath();
 	}
 
 	/** Return a path for Hoth. */

@@ -7,7 +7,23 @@
 // classname path to your HothConfig. Hoth will generate a report for the
 // application's HothConfig you provide.
 
+// -----------------------------------------------------------------------
+// 					THIS IS AN EXAMPLE AND ONLY AN EXAMPLE
+// -----------------------------------------------------------------------
+// HOW YOU IMPLEMENT REPORTING IS REALLY YOUR BUSINESS SINCE NO ONE SHOULD
+// ACCESS YOUR REPORT--OR KNOW HOW TO ACCESS YOUR REPORT--BUT YOU!!!!!!!!!
+//
+// This CFC should work right out of the box for the Example HOTH data.
+// You will need to change the path to your config for sure.
+//
+// Feel free to add anything else you want (password/IP check?) to this file
+// as it should become part of your code base.
+
 component {
+
+	// You will definitely want to change this path...
+	variables.ApplicationsHothConfig = new Hoth.config.HothConfig();
+
 	/** Loads the Web UI (HTML) **/
 	remote function index () returnformat='plain' {
 		local.HothReport = new Hoth.HothReporter( new Hoth.config.HothConfig() );

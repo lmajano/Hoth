@@ -15,13 +15,17 @@
 	// Modifications :---------------------------------------------------------
 	Modified		: 	12/13/2010 9:52:41 AM by Aaron Greenlee.
     				-	Now supporting ColdBox 3.0 RC1
+    				
+    				:	08/17/2011	8:47:12 PM by Aaron Greenlee.
+    				-	Now supporting application logging.
 */
 component
 name='HothTracker'
 accessors=false
 {
-
-	public Hoth.HothTracker function init (HothConfig) {
+	/** Return Hoth's tracker object. **/
+	public Hoth.HothTracker function init (HothConfig)
+	{
 		// If a config object was not provided we
 		// will use our default.
 		variables.Config = (structKeyExists(arguments, 'HothConfig'))
@@ -30,34 +34,27 @@ accessors=false
 
 		VARIABLES._NAME = 'Hoth_' & variables.Config.getApplicationName();
 
-		variables.exceptionKeys 	= ['detail','type','tagcontext','stacktrace','message'];			// Required exception keys
+		variables.exceptionKeys 	= ['detail','type','tagcontext','stacktrace','message'];// Required exception keys
 		variables.paths.LogPath 	= variables.Config.getLogPathExpanded();				// Get the root location for our logging.
 		variables.paths.Exceptions 	= variables.Config.getPath('exceptions');				// Track the unique exceptions.
 		variables.paths.Incidents 	= variables.Config.getPath('incidents');				// Track the hits per exception.
 		variables.paths.Report 		= variables.Config.getPath('exceptionReport');			// The actual report
 		variables.paths.Activity 	= variables.Config.getPath('exceptionReportActivity');	// Track when we save things. Helps understand volume.
-		//variables.paths.Index 	= variables.Config.getPath('exceptionIndex');			// Tracks the exception keys to prevent duplication
 
 		verifyDirectoryStructure();
 
-		try {
-		// For the life of this HothTracker, keep the ApplicationManager.
-		variables.HothApplicationManager = new Hoth.object.HothApplicationManager(HothConfig);
-		// Because the entire application db file is locked, we only want to
-		// learn about this application when the HothTracker is created. The
-		// actual amount of work done within the manager is small, but, it is
-		// does block all other processes for all other Hoth instances, so, we
-		// want to reduce calls to it to this constructor.
-		variables.HothApplicationManager.learnApplication(arguments.HothConfig);
-		} catch (any e) {
-			//writeDump(e);abort;
-		}
 		return this;
+	}
+
+	public any function getLogger()
+	{
+		return new Hoth.object.loggers.LoggerDevelopment(variables.Config);		
 	}
 
 	/** Track an exception.
 		@ExceptionStructure A ColdFusion cfcatch or a supported object from a Framework or Application. */
-	public boolean function track (any Exception) {
+	public boolean function track (any Exception)
+	{
 		local.ExceptionStructure = parseException(arguments.Exception);
 
 		// If we did not parse what we are supposed to

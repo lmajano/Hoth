@@ -14,7 +14,7 @@
 	// Modifications :---------------------------------------------------------
 */
 
-import coldbox.system.testing.*;
+import mockbox.system.testing.*;
 
 /** Unit test for Hoth.HothTracker */
 component extends="mxunit.framework.TestCase"  {
@@ -25,8 +25,9 @@ component extends="mxunit.framework.TestCase"  {
 
 		// Load our test config
 		UnitTestHothConfig = new Hoth.test.HothConfig();
+		
 		UnitTestHothConfig.setHothReportURL('UNIT_TEST_EXPECTED_VALUE');
-
+		
 		// SUT
 		SUT = new Hoth.HothReporter(UnitTestHothConfig);
 
@@ -38,7 +39,6 @@ component extends="mxunit.framework.TestCase"  {
 	public void function getReportView() {
 
 		local.view = SUT.getReportView();
-		writeDump(var=local.view,output='c:\web\debug.log');
 
 		local.position = find('UNIT_TEST_EXPECTED_VALUE',local.view,1);
 

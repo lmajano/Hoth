@@ -16,7 +16,7 @@
     				-	Now supporting ColdBox 3.0 RC1
 */
 
-import coldbox.system.testing.*;
+import mockbox.system.testing.*;
 
 /** Unit test for Hoth.HothTracker */
 component extends="mxunit.framework.TestCase"  {
@@ -77,7 +77,7 @@ component extends="mxunit.framework.TestCase"  {
 		try {
 			coldbox = undefinedVariable;
 		} catch (any exception) {
-			local.ExceptionBean = new coldbox.system.web.context.ExceptionBean(errorStruct=exception);
+			local.ExceptionBean = new test.stone.ExceptionBean(errorStruct=exception);
 			local.hashOfStack = hash(lcase(exception.stacktrace),'SHA');
 			local.HothOk = variables.HothTracker.track(exception);
 		}

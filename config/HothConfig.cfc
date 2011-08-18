@@ -31,6 +31,10 @@ component
 		This folder should be empty when you start. */
 	property name='logPath' 				default='/Hoth/examples/Example_Logs';
 
+	/** Is the log file location relative to the webroot?
+		This folder should be empty when you start. */
+	property name='logPathIsRelative' 		default='true';
+	
 	// -------------------------------------------------------------------------
 	// HOTH EMAIL SETTINGS (required)
 	// -------------------------------------------------------------------------
@@ -52,6 +56,8 @@ component
 	// -------------------------------------------------------------------------
 	// HOTH REPORT SETTINGS (required)
 	// -------------------------------------------------------------------------
+
+	property name='LogPathIsRelative' default='false';
 
 	/** How you access the Hoth reports is up to you. When the reports are
 		generated Hoth needs to know how to build links so you can navigate

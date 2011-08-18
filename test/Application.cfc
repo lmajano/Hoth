@@ -11,5 +11,9 @@
 
 --->
 <cfcomponent output="false">
+	<cfset this.mappings['/test'] = getDirectoryFromPath(getCurrentTemplatePath()) />
+	<cfset this.mappings['/mockbox'] = this.mappings['/test'] & 'mockbox/mockbox' />
+	
 	<cfset this.name = "Hoth Tests_" & hash(getCurrentTemplatePath())>
+	
 </cfcomponent>

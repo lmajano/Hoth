@@ -30,7 +30,7 @@ component
 	property name='EmailNewExceptionsFrom' default='aarongreenlee@gmail.com';
 	property name='EmailNewExceptionsFile' default='true';
 	property name='HothReportURL' default='UNIT_TEST_WILL_POPULATE';
-
+	property name='LogPathIsRelative' default=false;
 	public function init ()
 	{
 		super.init();
