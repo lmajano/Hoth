@@ -51,16 +51,16 @@ accessors=false
 		return new Hoth.object.loggers.LoggerDevelopment(variables.Config);		
 	}
 
-	/** Track an exception.
+	/** Track an exception and returns the hash of the stacktrace. If an error occurs a zero length string is returned.
 		@ExceptionStructure A ColdFusion cfcatch or a supported object from a Framework or Application. */
-	public boolean function track (any Exception)
+	public string function track (any Exception)
 	{
 		local.ExceptionStructure = parseException(arguments.Exception);
 
 		// If we did not parse what we are supposed to
 		// track, we will abort.
 		if (!local.ExceptionStructure.validException)
-			return false;
+			return '';
 
 		// ------------------------------------------------------------------------------
 		try {
@@ -155,10 +155,15 @@ accessors=false
 			}
 		// ------------------------------------------------------------------------------
 		} catch (any e) {
-			return false;
+			return '';
 		}
 		// ------------------------------------------------------------------------------
-		return true;
+		if (structKeyExists(request, 'logger'))
+		{
+			request.logger.info(this,'Generated Hoth #local.index.key#');
+		}
+		
+		return local.index.key;
 	}
 
 	// Private Methods Follow -------------------------------------------------------
