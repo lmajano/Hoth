@@ -43,6 +43,16 @@ implements="Hoth.object.loggers.ILogger"
 	
 	public function flush()
 	{	
+		if (structKeyExists(variables.Config, 'flush'))
+		{
+			local.result = variables.Config.flush();
+			
+			if (!isNull(local.result))
+			{
+				return;
+			}
+		}
+		
 		info(this,'Flushing Log');
 		local.n = arrayLen(variables.timers);
 		local.output = ["Elapsed Time: xxxxxx; #variables.messages[1]#"];
@@ -63,8 +73,6 @@ implements="Hoth.object.loggers.ILogger"
 		
 		application.cbController.getPlugin('FileUtils')
 			.appendFile(expandPath('/atvlogs/request_debugging.log'), arrayToList(local.output, chr(10)));
-		
-		writeDump(var=arrayToList(local.output, chr(10)),abort=false,output="console");
 		
 		return;
 	}
