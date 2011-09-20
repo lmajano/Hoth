@@ -34,10 +34,17 @@ accessors='true'
 				,type='Hoth.object.CoreConfig.init()'
 			);
 		}
+		
 		local.n = arrayLen(local.md.properties);
 		for (local.i=1; local.i <= local.n; local.i++) {
-			local.fn = this['set' & local.md.properties[local.i].name];
-			local.fn(local.md.properties[local.i]['default']);
+			// To allow runtime configurations, we are going to first check to
+			// see if a value exists. If not, we will use the default
+			local.fn = this['get' & local.md.properties[local.i].name];
+			
+			if (isNull(local.fn())) {
+				local.fn = this['set' & local.md.properties[local.i].name];			
+				local.fn(local.md.properties[local.i]['default']);
+			}
 		}
 		
 		// Apply defaults if needed
