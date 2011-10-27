@@ -127,9 +127,27 @@ accessors=false
 						,variables.Config.getEmailFooter()
 					];
 
-					local.Mail = new Mail(	 subject='Hoth Exception (' & variables.Config.getApplicationName() & ') ' & local.index.key
+					if ( variables.Config.getUseDefaultMailServer() ) {
+						local.Mail = new Mail(	 subject='Hoth Exception (' & variables.Config.getApplicationName() & ') ' & local.index.key
 											,to=variables.Config.getEmailNewExceptionsTo()
-											,from=variables.Config.getEmailNewExceptionsFrom());
+											,from=variables.Config.getEmailNewExceptionsFrom()
+											,usessl=variables.Config.getConnectToEmailServerOverSSL());
+					} else {
+						local.Mail = new Mail(	 subject='Hoth Exception (' & variables.Config.getApplicationName() & ') ' & local.index.key
+											,to=variables.Config.getEmailNewExceptionsTo()
+											,from=variables.Config.getEmailNewExceptionsFrom()
+											,server=variables.Config.getEmailServer()
+											,port=variables.Config.getEmailServerPort()
+											,usessl=variables.Config.getConnectToEmailServerOverSSL());
+					}
+
+					if( len( variables.Config.getEmailServerUsername() ) ) {
+						local.Mail.addParam(username=variables.Config.getEmailServerUsername());
+					}
+
+					if( len( variables.Config.getEmailServerPassword() ) ) {
+						local.Mail.addParam(password=variables.Config.getEmailServerPassword());
+					}
 
 					// Attach the file
 					if ( variables.Config.getEmailNewExceptionsFile() ) {

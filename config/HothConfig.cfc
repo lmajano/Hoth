@@ -53,6 +53,24 @@ component
 	/** Would you like to add a footer to email notifications? */
 	property name='EmailFooter' 	default='';
 	
+	/** Do you want to connect to the Email server over SSL? */
+	property name='ConnectToEmailServerOverSSL' 	default='false';
+
+	/** Do you want to use the mail server setup in CFIDE? */
+	property name='UseDefaultMailServer' 	default='true';
+
+	/** What is the address of the email server you would like to send exceptions from? */
+	property name='EmailServer' 			default='127.0.0.1';
+
+	/** What is the port of the email server you would like to send exceptions from? */
+	property name='EmailServerPort' 		default='25';
+
+	/** What is the username for the email server you would like to send exceptions from? */
+	property name='EmailServerUsername' 	default='';
+
+	/** What is the password for the email server you would like to send exceptions from? */
+	property name='EmailServerPassword' 	default='';
+	
 	// -------------------------------------------------------------------------
 	// HOTH REPORT SETTINGS (required)
 	// -------------------------------------------------------------------------
