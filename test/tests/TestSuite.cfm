@@ -1,7 +1,7 @@
 <cfinvoke component="DirectoryTestSuite"   
           method="run"  
           directory="#expandPath('.')#"
-		  componentPath='hoth.test'   
+		  componentPath=''   
           recurse="true"   
           returnvariable="results"/>  
 <cfoutput>#results.getResultsOutput('html')#</cfoutput>   
