@@ -31,7 +31,7 @@ accessors='true'
 			throw(
 				 message='Invalid HothConfig Object.'
 				,detail="You have provided a CFC as the HothConfig that does not have any properties of its own. This could happen if you extended another HothConfig, or, just did not put any properties in your HothConfig."
-				,type='Hoth.object.CoreConfig.init()'
+				,type='Hoth.model.CoreConfig.init()'
 			);
 		}
 		
@@ -48,7 +48,7 @@ accessors='true'
 		}
 		
 		// Apply defaults if needed
-		if (isNull(getLogPathIsRelative))
+		if (isNull(getLogPathIsRelative()))
 		{
 			setLogPathIsRelative(false);
 		}
@@ -71,7 +71,7 @@ accessors='true'
 		if (!structKeyExists(variables, 'logPathIsRelative')) {
 			variables.logPathIsRelative = false;
 		}
-		return variables.logPathIsRelative ? expandPath( getLogPath() ) : getLogPath();
+		return variables.logPathIsRelative ? expandPath( getLogPath() ) : getLogPath() & "~~";
 	}
 
 	/** Return a path for Hoth. */
