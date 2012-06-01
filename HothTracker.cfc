@@ -30,7 +30,7 @@ accessors=false
 		// will use our default.
 		variables.Config = (structKeyExists(arguments, 'HothConfig'))
 			? arguments.HothConfig
-			: new Hoth.object.HothConfig();
+			: new Hoth.config.HothConfig();
 
 		VARIABLES._NAME = 'Hoth_' & variables.Config.getApplicationName();
 

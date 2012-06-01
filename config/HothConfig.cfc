@@ -13,8 +13,8 @@
 
 */
 component
-	implements='Hoth.object.iHothConfig'
-	extends='Hoth.object.CoreConfig'
+	implements='Hoth.model.iHothConfig'
+	extends='Hoth.model.CoreConfig'
 	accessors=true {
 
 	// -------------------------------------------------------------------------
@@ -74,8 +74,6 @@ component
 	// -------------------------------------------------------------------------
 	// HOTH REPORT SETTINGS (required)
 	// -------------------------------------------------------------------------
-
-	property name='LogPathIsRelative' default='false';
 
 	/** How you access the Hoth reports is up to you. When the reports are
 		generated Hoth needs to know how to build links so you can navigate

@@ -14,8 +14,8 @@
  **/
 
 component
-	implements	= 'Hoth.object.iHothConfig'
-	extends		= 'Hoth.object.CoreConfig'
+	implements	= 'Hoth.model.iHothConfig'
+	extends		= 'Hoth.model.CoreConfig'
 	accessors	= true
 	{
 
