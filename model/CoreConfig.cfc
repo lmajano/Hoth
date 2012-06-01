@@ -71,7 +71,7 @@ accessors='true'
 		if (!structKeyExists(variables, 'logPathIsRelative')) {
 			variables.logPathIsRelative = false;
 		}
-		return variables.logPathIsRelative ? expandPath( getLogPath() ) : getLogPath() & "~~";
+		return variables.logPathIsRelative ? expandPath( getLogPath() ) : getLogPath();
 	}
 
 	/** Return a path for Hoth. */
