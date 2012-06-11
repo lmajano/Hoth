@@ -71,6 +71,9 @@ component
 	/** What is the password for the email server you would like to send exceptions from? */
 	property name='EmailServerPassword' 	default='';
 	
+	/** Would you like HTML emails which contain the exception? */
+	property name='EmailExceptionsAsHTML'	default='false';
+	
 	// -------------------------------------------------------------------------
 	// HOTH REPORT SETTINGS (required)
 	// -------------------------------------------------------------------------
