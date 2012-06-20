@@ -146,17 +146,19 @@ Authors:
 Aaron Greenlee - http://aarongreenlee.com
 Sean Coyne - http://www.n42designs.com
 Dan Skaggs - http://TNTechnoHermit.com
-Mike Henk - http://www.henke.ws
+Mike Henke - http://www.henke.ws
 James Brown - http://coldfusioning.com
 Dave Shuck - http://daveshuck.com
+John Whish - http://www.aliaspooryorik.com
 
 --------------------------------------------------------------------------------
 
 Requirements
 
-Adobe ColdFusion 9.01 with HotFix 1 Applied
+Adobe ColdFusion 9.0.1 with HotFix 1 Applied
+Railo 3.3.2
 
-Not yet tested on Railo or OpenBD.
+Not yet tested on OpenBD.
 
 --------------------------------------------------------------------------------
 Hoth License
