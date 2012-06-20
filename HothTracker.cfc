@@ -74,6 +74,27 @@ accessors=false
 				,url		= CGI.HTTP_HOST & CGI.path_info
 				,client		= CGI.HTTP_USER_AGENT
 			};
+			
+			// check if configured to track additional ColdFusion scopes
+			local.scopes = UCase(variables.Config.getCaptureScopes());
+			
+			if (local.scopes!=""){
+				if (ListFind(local.scopes, "FORM") && !IsNull(FORM)) {
+					local.e.scopes.FORM = FORM;
+				}
+				if (ListFind(local.scopes, "URL") && !IsNull(URL)) {
+					local.e.scopes.URL = URL;
+				}
+				if (ListFind(local.scopes, "COOKIE") && !IsNull(COOKIE)) {
+					local.e.scopes.COOKIE = COOKIE;
+				}
+				if (ListFind(local.scopes, "CGI") && !IsNull(CGI)) {
+					local.e.scopes.CGI = CGI;
+				}
+				if (ListFind(local.scopes, "SESSION") && !IsNull(SESSION)) {
+					local.e.scopes.SESSION = SESSION;
+				}
+			}
 
 			// Generate JSON for hashing
 			local.json = {};

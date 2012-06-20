@@ -74,6 +74,12 @@ component
 	/** Would you like HTML emails which contain the exception? */
 	property name='EmailExceptionsAsHTML'	default='false';
 	
+	/** List additional ColdFusion scopes you want to record to help debug / replicate issues
+		Accepts a comma delimited list of types. It's recommended that you do do record scopes 
+		that contain objects, but it will work!
+		Supported types are: FORM,URL,COOKIE,CGI,SESSION */
+	property name='CaptureScopes'			default='';
+	
 	// -------------------------------------------------------------------------
 	// HOTH REPORT SETTINGS (required)
 	// -------------------------------------------------------------------------
