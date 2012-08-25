@@ -13,8 +13,8 @@
 
 */
 component
-	implements='Hoth.object.iHothConfig'
-	extends='Hoth.object.CoreConfig'
+	implements='Hoth.model.iHothConfig'
+	extends='Hoth.model.CoreConfig'
 	accessors=true {
 
 	// -------------------------------------------------------------------------
@@ -53,11 +53,36 @@ component
 	/** Would you like to add a footer to email notifications? */
 	property name='EmailFooter' 	default='';
 	
+	/** Do you want to connect to the Email server over SSL? */
+	property name='ConnectToEmailServerOverSSL' 	default='false';
+
+	/** Do you want to use the mail server setup in CFIDE? */
+	property name='UseDefaultMailServer' 	default='true';
+
+	/** What is the address of the email server you would like to send exceptions from? */
+	property name='EmailServer' 			default='127.0.0.1';
+
+	/** What is the port of the email server you would like to send exceptions from? */
+	property name='EmailServerPort' 		default='25';
+
+	/** What is the username for the email server you would like to send exceptions from? */
+	property name='EmailServerUsername' 	default='';
+
+	/** What is the password for the email server you would like to send exceptions from? */
+	property name='EmailServerPassword' 	default='';
+	
+	/** Would you like HTML emails which contain the exception? */
+	property name='EmailExceptionsAsHTML'	default='false';
+	
+	/** List additional ColdFusion scopes you want to record to help debug / replicate issues
+		Accepts a comma delimited list of types. It's recommended that you do do record scopes 
+		that contain objects, but it will work!
+		Supported types are: FORM,URL,COOKIE,CGI,SESSION */
+	property name='CaptureScopes'			default='';
+	
 	// -------------------------------------------------------------------------
 	// HOTH REPORT SETTINGS (required)
 	// -------------------------------------------------------------------------
-
-	property name='LogPathIsRelative' default='false';
 
 	/** How you access the Hoth reports is up to you. When the reports are
 		generated Hoth needs to know how to build links so you can navigate

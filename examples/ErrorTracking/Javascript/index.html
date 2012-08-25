@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script>
+		// code to trap and log errors to Hoth
+		window.onerror = function(message, url, linenumber) {
+			// you should set hothProxyURL to the URL of your HothProxy.cfc
+			var hothProxyURL = document.location.href.replace(/examples.*/i, '');
+			var e = {message:message, url:url, linenumber:linenumber};
+			if (typeof jQuery != 'undefined') {
+				var jqxhr = jQuery.ajax({
+					cache: false,
+					type: 'POST',
+					url: hothProxyURL + 'HothProxy.cfc?method=logClientSideError',
+					data: e
+				});
+				// return true to stop error being shown to user
+				return true;
+			}
+		}
+		</script>
+	</head>
+	<body>
+		
+		<p onClick="alert(foo);">Click me to throw an error!</p>
+		
+	</body>
+</html>
+

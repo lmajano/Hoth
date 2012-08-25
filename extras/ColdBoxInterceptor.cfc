@@ -3,28 +3,29 @@
 I configure and load Hoth into the ColdBox cache
 --------------------------------------------------------------------
 Define settings in ColdBox.cfc for example:
- 		interceptors = [
-			//Autowire
-			{
-				class="coldbox.system.interceptors.Autowire",
-			 	properties={}
-			},
-			//SES
-			{
-				class="coldbox.system.interceptors.SES",
-			 	properties={}
-			},
-			//HothTracker
-			{
-				class="hoth.extras.ColdBoxInterceptor",
-			 	properties={
-					EmailNewExceptions = true,
-					EmailNewExceptionsFile = true,
-					EmailNewExceptionsTo = "kaboom@mysite.com",
-					EmailNewExceptionsFrom = "server@mysite.com"
-			 	}
-			}
-		];
+
+	interceptors = [
+		//Autowire
+		{
+			class="coldbox.system.interceptors.Autowire",
+		 	properties={}
+		},
+		//SES
+		{
+			class="coldbox.system.interceptors.SES",
+		 	properties={}
+		},
+		//HothTracker
+		{
+			class="hoth.extras.ColdBoxInterceptor",
+		 	properties={
+				EmailNewExceptions = true,
+				EmailNewExceptionsFile = true,
+				EmailNewExceptionsTo = "kaboom@mysite.com",
+				EmailNewExceptionsFrom = "server@mysite.com"
+		 	}
+		}
+	];
 --------------------------------------------------------------------
 */
 component
@@ -94,5 +95,4 @@ component
 		
 		getPlugin( "logger" ).info( "hoth.extras.ColdBoxInterceptor", "HothTracker configured and loaded in ColdBox cache using key '#getProperty( 'cacheKeyName' )#'" );
 	}
-	
 }

@@ -30,7 +30,7 @@ accessors=false
 		// will use our default.
 		variables.Config = (structKeyExists(arguments, 'HothConfig'))
 			? arguments.HothConfig
-			: new Hoth.object.HothConfig();
+			: new Hoth.config.HothConfig();
 
 		VARIABLES._NAME = 'Hoth_' & variables.Config.getApplicationName();
 
@@ -74,6 +74,27 @@ accessors=false
 				,url		= CGI.HTTP_HOST & CGI.path_info
 				,client		= CGI.HTTP_USER_AGENT
 			};
+			
+			// check if configured to track additional ColdFusion scopes
+			local.scopes = UCase(variables.Config.getCaptureScopes());
+			
+			if (local.scopes!=""){
+				if (ListFind(local.scopes, "FORM") && !IsNull(FORM)) {
+					local.e.scopes.FORM = FORM;
+				}
+				if (ListFind(local.scopes, "URL") && !IsNull(URL)) {
+					local.e.scopes.URL = URL;
+				}
+				if (ListFind(local.scopes, "COOKIE") && !IsNull(COOKIE)) {
+					local.e.scopes.COOKIE = COOKIE;
+				}
+				if (ListFind(local.scopes, "CGI") && !IsNull(CGI)) {
+					local.e.scopes.CGI = CGI;
+				}
+				if (ListFind(local.scopes, "SESSION") && !IsNull(SESSION)) {
+					local.e.scopes.SESSION = SESSION;
+				}
+			}
 
 			// Generate JSON for hashing
 			local.json = {};
@@ -127,9 +148,27 @@ accessors=false
 						,variables.Config.getEmailFooter()
 					];
 
-					local.Mail = new Mail(	 subject='Hoth Exception (' & variables.Config.getApplicationName() & ') ' & local.index.key
+					if ( variables.Config.getUseDefaultMailServer() ) {
+						local.Mail = new Mail(	 subject='Hoth Exception (' & variables.Config.getApplicationName() & ') ' & local.index.key
 											,to=variables.Config.getEmailNewExceptionsTo()
-											,from=variables.Config.getEmailNewExceptionsFrom());
+											,from=variables.Config.getEmailNewExceptionsFrom()
+											,usessl=variables.Config.getConnectToEmailServerOverSSL());
+					} else {
+						local.Mail = new Mail(	 subject='Hoth Exception (' & variables.Config.getApplicationName() & ') ' & local.index.key
+											,to=variables.Config.getEmailNewExceptionsTo()
+											,from=variables.Config.getEmailNewExceptionsFrom()
+											,server=variables.Config.getEmailServer()
+											,port=variables.Config.getEmailServerPort()
+											,usessl=variables.Config.getConnectToEmailServerOverSSL());
+					}
+
+					if( len( variables.Config.getEmailServerUsername() ) ) {
+						local.Mail.addParam(username=variables.Config.getEmailServerUsername());
+					}
+
+					if( len( variables.Config.getEmailServerPassword() ) ) {
+						local.Mail.addParam(password=variables.Config.getEmailServerPassword());
+					}
 
 					// Attach the file
 					if ( variables.Config.getEmailNewExceptionsFile() ) {
@@ -250,7 +289,7 @@ accessors=false
 	private void function verifyDirectoryStructure() {
 		// Verify our index diectory exists
 
-		/** Ensure our directory structure is as expected. */
+		/* Ensure our directory structure is as expected. */
 		lock name=VARIABLES._NAME timeout=variables.Config.getTimeToLock() type="exclusive" {
 			if (!directoryExists(variables.paths.Exceptions)) {
 				directoryCreate(variables.paths.Exceptions);
